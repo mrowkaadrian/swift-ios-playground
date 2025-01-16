@@ -11,7 +11,9 @@ struct ContentView: View {
     var body: some View {
         VStack {
             CardView(emoji: "😎", isSelected: true)
-            CardView(isSelected: true)
+            CardView(emoji: "😃", isSelected: false)
+            CardView(emoji: "🥹", isSelected: true)
+            CardView(emoji: "🥳", isSelected: false)
         }
         .padding()
     }
@@ -20,17 +22,17 @@ struct ContentView: View {
 struct CardView: View {
     var emoji: String = "😀"
     var text: String = "Card"
+    @State
     var isSelected: Bool = false
     
     var body: some View {
         ZStack {
+            let baseRectangle = RoundedRectangle(cornerRadius: 8)
             if isSelected {
-                Rectangle()
+                baseRectangle
                     .foregroundColor(.white)
-                    .cornerRadius(8)
-                Rectangle()
+                baseRectangle
                     .strokeBorder(.black, lineWidth: 4)
-                    .cornerRadius(8)
                 
                 VStack {
                     Text(emoji)
@@ -42,13 +44,14 @@ struct CardView: View {
                         .padding()
                 }
             } else {
-                Rectangle()
+                baseRectangle
                     .foregroundColor(.blue)
-                    .cornerRadius(8)
-                Rectangle()
+                baseRectangle
                     .strokeBorder(.black, lineWidth: 4)
-                    .cornerRadius(8)
             }
+        }
+        .onTapGesture {
+            isSelected.toggle()
         }
     }
 }
