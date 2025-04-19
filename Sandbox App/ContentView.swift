@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    let icons = ["😎", "😃", "🥹", "🥳"]
+    
     var body: some View {
         VStack {
-            CardView(emoji: "😎", isSelected: true)
-            CardView(emoji: "😃", isSelected: false)
-            CardView(emoji: "🥹", isSelected: true)
-            CardView(emoji: "🥳", isSelected: false)
+            ForEach(icons, id: \.self) { item in
+                CardView(emoji: item)
+            }
         }
         .padding()
     }
 }
 
 struct CardView: View {
-    var emoji: String = "😀"
-    var text: String = "Card"
+    var emoji = "😀"
+    var text = "Card"
+    
     @State
-    var isSelected: Bool = false
+    var isSelected = false
     
     var body: some View {
         ZStack {
