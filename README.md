@@ -4,5 +4,5 @@ This repository contains a project created when trying out (and learning) Swift.
 
 ## Learning sources
 
-[Swift Docs](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics/)
-[CS193p Stanford Lectures](https://cs193p.sites.stanford.edu/2023)
+* [Swift Docs](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics/)
+* [CS193p Stanford Lectures](https://cs193p.sites.stanford.edu/2023)
