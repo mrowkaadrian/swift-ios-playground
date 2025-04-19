@@ -8,12 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
-    let icons = ["🔴", "⚫️", "🔵", "⚪️", "🟢", "🟤", "🟡", "🟣", "🟠"]
+    let theme1 = ["🐶", "🐱", "🐭", "🐹", "🐰", "🐻", "🐼", "🐨", "🐵", "🐔", "🐦", "🐧"]
+    let theme2 = ["🔴", "⚫️", "🔵", "⚪️", "🟢", "🟤", "🟡", "🟣", "🟠"]
+    let theme3 = ["🚗", "🚕", "🚙", "🚌", "🚎", "🏎️", "🚓", "🚑", "🚒", "🚐"]
     
-    @State
-    var count: Int = 3
+    enum Theme: String, CaseIterable, Identifiable {
+        case animals, circles, vehicles
+        var id: Self { self }
+    }
+    
+    @State var count: Int = 3
+    @State var selectedTheme: Theme = .animals
+    
+    var icons: [String] {
+        switch selectedTheme {
+        case .animals:
+            return theme1.shuffled()
+        case .circles:
+            return theme2.shuffled()
+        case .vehicles:
+            return theme3.shuffled()
+        }
+    }
     
     var body: some View {
+        title
         VStack {
             ScrollView {
                 cardList
@@ -24,10 +43,14 @@ struct ContentView: View {
         .padding()
     }
     
+    var title: some View {
+        Text("Card App").font(.title)
+    }
+    
     var cardList: some View {
         LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
-            ForEach(0..<count, id: \.self) { item in
-                CardView(icon: icons[Int.random(in: 0..<icons.count)])
+            ForEach(0..<count, id: \.self) { index in
+                CardView(icon: icons[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
@@ -36,6 +59,8 @@ struct ContentView: View {
     var cardButtons: some View {
         HStack {
             cardCardAdjuster(by: -1, symbol: "minus.circle")
+            Spacer()
+            themeSelector
             Spacer()
             cardCardAdjuster(by: 1, symbol: "plus.circle")
         }
@@ -48,8 +73,17 @@ struct ContentView: View {
         }, label: {
             Image(systemName: symbol)
         })
-        .disabled(count + offset < 1)
+        .disabled(count + offset < 1 || count + offset > icons.count)
     }
+    
+    var themeSelector: some View {
+        Picker("Theme", selection: $selectedTheme) {
+            Text("Animals").tag(Theme.animals)
+            Text("Circles").tag(Theme.circles)
+            Text("Vehicles").tag(Theme.vehicles)
+        }
+    }
+    
 }
 
 struct CardView: View {
@@ -57,7 +91,7 @@ struct CardView: View {
     var text = "Card"
     
     @State
-    var isSelected = true
+    var isSelected = false
     
     var body: some View {
         ZStack {
